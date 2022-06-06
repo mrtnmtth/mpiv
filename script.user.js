@@ -86,7 +86,7 @@ const SETTLE_TIME = 50;
 // used to detect JS code in host rules
 const RX_HAS_CODE = /(^|[^-\w])return[\W\s]/;
 const RX_EVAL_BLOCKED = /'Trusted(Script| Type)'|unsafe-eval/;
-const RX_MEDIA_URL = /^(?!data:)[^?#]+?\.(avif|bmp|jpe?g?|gif|mp4|png|svgz?|web[mp])($|[?#])/i;
+const RX_MEDIA_URL = /^(?!data:)[^?#]+?\.(avif|bmp|jpe?g?|gif|m4v|mp4|png|svgz?|web[mp])($|[?#])/i;
 const ZOOM_MAX = 16;
 const SYM_U = Symbol('u');
 const TRUSTED = (({trustedTypes}, policy) =>
@@ -2611,6 +2611,7 @@ const Req = {
       case 'jpe': return 'image/jpeg';
       case 'jpeg': return 'image/jpeg';
       case 'jpg': return 'image/jpeg';
+      case 'm4v': return 'video/mp4';
       case 'mp4': return 'video/mp4';
       case 'png': return 'image/png';
       case 'svg': return 'image/svg+xml';
@@ -2631,7 +2632,7 @@ const Req = {
       n.getAttribute('href') ||
       n.getAttribute('content') ||
       (html = n.outerHTML).includes('http') &&
-      html.match(/https?:\/\/[^\s"<>]+?\.(jpe?g|gif|png|svg|web[mp]|mp4)[^\s"<>]*|$/i)[0];
+      html.match(/https?:\/\/[^\s"<>]+?\.(jpe?g|gif|png|svg|web[mp]|m4v|mp4)[^\s"<>]*|$/i)[0];
     return !!path && Util.rel2abs(Util.decodeHtmlEntities(path),
       $prop('base[href]', 'href', n.ownerDocument) || url);
   },
@@ -2873,7 +2874,7 @@ const Util = {
 
   isVideoUrl: url => url.startsWith('data:video') || Util.isVideoUrlExt(url),
 
-  isVideoUrlExt: url => (url = Util.extractFileExt(url)) && /^(webm|mp4)$/i.test(url),
+  isVideoUrlExt: url => (url = Util.extractFileExt(url)) && /^(webm|m4v|mp4)$/i.test(url),
 
   newFunction(...args) {
     try {
